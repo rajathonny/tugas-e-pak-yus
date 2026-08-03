@@ -1,6 +1,28 @@
 import 'package:flutter/material.dart';
 
 void main() {
+  // Data barang sesuai contoh soal
+  String namaBarang = "Buku Tulis";
+  double hargaAnggota = 3000.0;
+  double hargaUmum = 3500.0;
+  int jumlahStok = 40;
+  bool tersedia = true;
+  int jumlahBeli = 3;
+
+  // Perhitungan
+  double totalAnggota = jumlahBeli * hargaAnggota;
+  double totalUmum = jumlahBeli * hargaUmum;
+  double selisih = totalUmum - totalAnggota;
+
+  debugPrint("=== KARTU DATA BARANG ===");
+  debugPrint("Nama : $namaBarang");
+  debugPrint("Harga Anggota : Rp$hargaAnggota");
+  debugPrint("Harga Umum : Rp$hargaUmum");
+  debugPrint("Stok : $jumlahStok");
+  debugPrint("Tersedia : $tersedia");
+  debugPrint("Total (anggota) $jumlahBeli pcs: Rp$totalAnggota");
+  debugPrint("Selisih vs umum : Rp$selisih");
+
   runApp(const MyApp());
 }
 
@@ -28,9 +50,9 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 0, 128)),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'iwak peyek'),
     );
   }
 }
@@ -66,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
-          mainAxisAlignment: .center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('You have pushed the button this many times:'),
             Text(
