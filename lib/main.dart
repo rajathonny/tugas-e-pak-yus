@@ -1,28 +1,113 @@
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 void main() {
-  // Data barang sesuai contoh soal
-  String namaBarang = "Buku Tulis";
-  double hargaAnggota = 3000.0;
-  double hargaUmum = 3500.0;
-  int jumlahStok = 40;
-  bool tersedia = true;
-  int jumlahBeli = 3;
+  
+  // Array untuk menyimpan 3 skenario uji program
+  List<Map<String, dynamic>> scenarios = [
+    {
+      "namaBarang": "Buku Tulis",
+      "hargaAnggota": 2500.0,
+      "hargaUmum": 3500.0,
+      "jumlahStok": 67,
+      "anggota": true,
+      "kategori": "atk",
+      "total": 250000,
+    },
+    {
+      "namaBarang": "Buku Tulis",
+      "hargaAnggota": 2500.0,
+      "hargaUmum": 3500.0,
+      "jumlahStok": 67,
+      "anggota": false,
+      "kategori": "atk",
+      "total": 150000,
+    },
+    {
+      "namaBarang": "Buku Tulis",
+      "hargaAnggota": 2500.0,
+      "hargaUmum": 3500.0,
+      "jumlahStok": 67,
+      "anggota": false,
+      "kategori": "atk",
+      "total": 50000,
+    },
+  ];
 
-  // Perhitungan
-  double totalAnggota = jumlahBeli * hargaAnggota;
-  double totalUmum = jumlahBeli * hargaUmum;
-  double selisih = totalUmum - totalAnggota;
+  final formatter = NumberFormat('#,##0', 'id_ID');
 
-  debugPrint("=== KARTU DATA BARANG ===");
-  debugPrint("Nama : $namaBarang");
-  debugPrint("Harga Anggota : Rp$hargaAnggota");
-  debugPrint("Harga Umum : Rp$hargaUmum");
-  debugPrint("Stok : $jumlahStok");
-  debugPrint("Tersedia : $tersedia");
-  debugPrint("Total (anggota) $jumlahBeli pcs: Rp$totalAnggota");
-  debugPrint("Selisih vs umum : Rp$selisih");
+  debugPrint("=== HASIL UJI PROGRAM 3 SKENARIO ===\n");
 
+  // Loop untuk setiap skenario
+  for (int i = 0; i < scenarios.length; i++) {
+    var scenario = scenarios[i];
+    
+    String namaBarang = scenario["namaBarang"];
+    double hargaAnggota = scenario["hargaAnggota"];
+    double hargaUmum = scenario["hargaUmum"];
+    int jumlahStok = scenario["jumlahStok"];
+    bool anggota = scenario["anggota"];
+    String kategori = scenario["kategori"];
+    double total = scenario["total"];
+
+    // Perhitungan jumlah beli berdasarkan total
+    double hargaSatuan = anggota ? hargaAnggota : hargaUmum;
+    int jumlahBeli = (total / hargaSatuan).toInt();
+
+    // Kategori barang koperasi
+    String lokasi;
+    switch (kategori) {
+      case "atk":
+        lokasi = "Rak 1";
+        break;
+      case "makanan":
+        lokasi = "Rak 2";
+        break;
+      case "minuman":
+        lokasi = "Rak 3";
+        break;
+      default:
+        lokasi = "Rak lain";
+    }
+
+    bool tersedia;
+    if (jumlahStok == 0) {
+      tersedia = false;
+    } else {
+      tersedia = true;
+    }
+
+    // Perhitungan diskon berdasarkan total pembelian
+    double diskon = 0;
+    String persentaseDiskon = "0%";
+    
+    if (total > 200000) {
+      diskon = total * 0.10;
+      persentaseDiskon = "10%";
+    } else if (total > 100000) {
+      diskon = total * 0.05;
+      persentaseDiskon = "5%";
+    } else {
+      diskon = 0;
+      persentaseDiskon = "0%";
+    }
+
+    double hargaAkhir = total - diskon;
+    
+    // Status anggota atau umum
+    String status = anggota ? "Anggota" : "Umum";
+
+    debugPrint("Skenario ${i + 1}:");
+    debugPrint("Status : $status");
+    debugPrint("Total Pembelian : Rp${formatter.format(total.toInt())}");
+    debugPrint("Diskon (Potongan Borongan) : $persentaseDiskon");
+    debugPrint("Harga Akhir : Rp${formatter.format(hargaAkhir.toInt())}");
+    debugPrint("Kategori : $kategori");
+    debugPrint("Lokasi Rak : $lokasi");
+    debugPrint("---\n");
+  }
+
+  //peilihan tipe data pada program dapat mencegah kesalahan perhitungan harga barang
+  // selain itu tipe data yang pas dapat mempermudahkan perhitugan secara akurat
   runApp(const MyApp());
 }
 
