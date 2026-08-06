@@ -2,110 +2,134 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 void main() {
   
-  // Array untuk menyimpan 3 skenario uji program
-  List<Map<String, dynamic>> scenarios = [
-    {
-      "namaBarang": "Buku Tulis",
-      "hargaAnggota": 2500.0,
-      "hargaUmum": 3500.0,
-      "jumlahStok": 67,
-      "anggota": true,
-      "kategori": "atk",
-      "total": 250000,
-    },
-    {
-      "namaBarang": "Buku Tulis",
-      "hargaAnggota": 2500.0,
-      "hargaUmum": 3500.0,
-      "jumlahStok": 67,
-      "anggota": false,
-      "kategori": "atk",
-      "total": 150000,
-    },
-    {
-      "namaBarang": "Buku Tulis",
-      "hargaAnggota": 2500.0,
-      "hargaUmum": 3500.0,
-      "jumlahStok": 67,
-      "anggota": false,
-      "kategori": "atk",
-      "total": 50000,
-    },
-  ];
 
-  final formatter = NumberFormat('#,##0', 'id_ID');
+  String namaBarang = "Buku Tulis";
+  double hargaAnggota = 3000.0;
+  double hargaUmum = 3500.0;
+  int jumlahStok = 3;
+  int jumlahBeli = 3;
 
-  debugPrint("=== HASIL UJI PROGRAM 3 SKENARIO ===\n");
+  // Variabel bool untuk status anggota
+  bool anggota = true;
 
-  // Loop untuk setiap skenario
-  for (int i = 0; i < scenarios.length; i++) {
-    var scenario = scenarios[i];
-    
-    String namaBarang = scenario["namaBarang"];
-    double hargaAnggota = scenario["hargaAnggota"];
-    double hargaUmum = scenario["hargaUmum"];
-    int jumlahStok = scenario["jumlahStok"];
-    bool anggota = scenario["anggota"];
-    String kategori = scenario["kategori"];
-    double total = scenario["total"];
-
-    // Perhitungan jumlah beli berdasarkan total
-    double hargaSatuan = anggota ? hargaAnggota : hargaUmum;
-    int jumlahBeli = (total / hargaSatuan).toInt();
-
-    // Kategori barang koperasi
-    String lokasi;
-    switch (kategori) {
-      case "atk":
-        lokasi = "Rak 1";
-        break;
-      case "makanan":
-        lokasi = "Rak 2";
-        break;
-      case "minuman":
-        lokasi = "Rak 3";
-        break;
-      default:
-        lokasi = "Rak lain";
-    }
-
-    bool tersedia;
-    if (jumlahStok == 0) {
-      tersedia = false;
-    } else {
-      tersedia = true;
-    }
-
-    // Perhitungan diskon berdasarkan total pembelian
-    double diskon = 0;
-    String persentaseDiskon = "0%";
-    
-    if (total > 200000) {
-      diskon = total * 0.10;
-      persentaseDiskon = "10%";
-    } else if (total > 100000) {
-      diskon = total * 0.05;
-      persentaseDiskon = "5%";
-    } else {
-      diskon = 0;
-      persentaseDiskon = "0%";
-    }
-
-    double hargaAkhir = total - diskon;
-    
-    // Status anggota atau umum
-    String status = anggota ? "Anggota" : "Umum";
-
-    debugPrint("Skenario ${i + 1}:");
-    debugPrint("Status : $status");
-    debugPrint("Total Pembelian : Rp${formatter.format(total.toInt())}");
-    debugPrint("Diskon (Potongan Borongan) : $persentaseDiskon");
-    debugPrint("Harga Akhir : Rp${formatter.format(hargaAkhir.toInt())}");
-    debugPrint("Kategori : $kategori");
-    debugPrint("Lokasi Rak : $lokasi");
-    debugPrint("---\n");
+  // Kategori barang koperasi
+  String kategori = "atk";
+  
+  // Switch-case untuk menentukan lokasi rak berdasarkan kategori
+  // Switch-case lebih rapi dibanding banyak if karena:
+  // 1. Lebih mudah dibaca dan dipahami
+  // 2. Struktur yang jelas dengan case-case terpisah
+  // 3. Tidak perlu nested if-else yang rumit
+  // 4. Lebih efisien untuk multiple kondisi dengan nilai spesifik
+  late String lokasi;
+  switch (kategori) {
+    case "atk":
+      lokasi = "Rak 1";
+      break;
+    case "makanan":
+      lokasi = "Rak 2";
+      break;
+    case "minuman":
+      lokasi = "Rak 3";
+      break;
+    default:
+      lokasi = "Rak lain";
   }
 
+  bool tersedia = jumlahStok != 0;
+
+  // Perhitungan
+  double hargaSatuan;
+  if (anggota) {
+    hargaSatuan = hargaAnggota;
+  } else {
+    hargaSatuan = hargaUmum;
+  }
+
+  double totalAnggota = jumlahBeli * hargaAnggota;
+  double totalUmum = jumlahBeli * hargaUmum;
+  double total = jumlahBeli * hargaSatuan;
+
+  // Perhitungan diskon berdasarkan total pembelian
+  double diskon = 0;
+  if (total > 200000) {
+    diskon = total * 0.10; // Diskon 10% untuk total > 200000
+  } else if (total > 100000) {
+    diskon = total * 0.05; // Diskon 5% untuk total > 100000
+  } else {
+    diskon = 0; // Tanpa diskon
+  }
+
+  double hargaAkhir = total - diskon;
+  double selisih = totalUmum - totalAnggota;
+
+  // Format harga dengan pemisah ribuan menggunakan NumberFormat dari package intl
+  // Referensi: https://pub.dev/packages/intl
+  final formatter = NumberFormat('#,##0', 'id_ID');
+
+  debugPrint("=== KARTU DATA BARANG ===");
+  debugPrint("Nama : $namaBarang");
+  debugPrint("Kategori : $kategori");
+  debugPrint("Lokasi Rak : $lokasi");
+  debugPrint("Harga Anggota : Rp${formatter.format(hargaAnggota.toInt())}");
+  debugPrint("Harga Umum : Rp${formatter.format(hargaUmum.toInt())}");
+  debugPrint("Stok : $jumlahStok");
+  debugPrint("Tersedia : $tersedia");
+  debugPrint("Status Anggota : $anggota");
+  debugPrint("Harga Satuan : Rp${formatter.format(hargaSatuan.toInt())}");
+  debugPrint("Total (anggota) $jumlahBeli pcs: Rp${formatter.format(totalAnggota.toInt())}");
+  debugPrint("Total (umum) $jumlahBeli pcs: Rp${formatter.format(totalUmum.toInt())}");
+  debugPrint("Total Sebelum Diskon : Rp${formatter.format(total.toInt())}");
+  debugPrint("Diskon : Rp${formatter.format(diskon.toInt())}");
+  debugPrint("Harga Akhir : Rp${formatter.format(hargaAkhir.toInt())}");
+  debugPrint("Selisih vs umum : Rp${formatter.format(selisih.toInt())}");
+
+  // Daftar barang bernomor untuk koperasi
+  // List<String> untuk nama barang dengan minimal 4 item
+  List<String> namaBarangList = [
+    "Buku Tulis",
+    "Pulpen",
+    "Penghapus",
+    "Roti",
+    "RTX 5060"
+    "semen 3 roda",
+    "paracetamol",
+    "susu",
+    "sapu lidi",
+    "tiang lampu",
+    "kabel listrik",
+    "iwak peyek",
+
+  ];
+
+  // List<double> untuk harga yang bersesuaian dengan nama barang
+  List<double> hargaBarangList = [
+    3000.0,
+    2500.0,
+    1500.0,
+    5000.0
+  ];
+
+  debugPrint("\n=== DAFTAR BARANG ===\n");
+
+  // Menggunakan for loop untuk menampilkan setiap barang dengan nomor urutannya
+  // Iterate safely using the length of the price list to avoid index errors
+  for (int i = 0; i < hargaBarangList.length; i++) {
+    int nomorUrut = i + 1;
+    String nama = i < namaBarangList.length ? namaBarangList[i] : 'Item $nomorUrut';
+    double harga = hargaBarangList[i];
+
+    debugPrint("$nomorUrut. $nama - Rp${formatter.format(harga.toInt())}");
+  }
+
+  // Fitur: Proses penjualan menggunakan while sampai stok habis
+  debugPrint("\n---Penjualan Buku Tulis---");
+  int stokPenjualan = jumlahStok;
+  while (stokPenjualan > 0) {
+    stokPenjualan -= 1;
+    debugPrint("Terjual 1, sisa stok: $stokPenjualan");
+  }
+  
   //peilihan tipe data pada program dapat mencegah kesalahan perhitungan harga barang
   // selain itu tipe data yang pas dapat mempermudahkan perhitugan secara akurat
   runApp(const MyApp());
