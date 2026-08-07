@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+double hitungTotal(int jumlah, double harga) {
+  return jumlah * harga;
+}
+double hitungHargaAkhir(double total, double persenPotongan) {
+  return total - (total * persenPotongan / 100);
+}
 void main() {
   
 
@@ -40,11 +46,7 @@ void main() {
 
   // Perhitungan
   double hargaSatuan;
-  if (anggota) {
     hargaSatuan = hargaAnggota;
-  } else {
-    hargaSatuan = hargaUmum;
-  }
 
   double totalAnggota = jumlahBeli * hargaAnggota;
   double totalUmum = jumlahBeli * hargaUmum;
@@ -91,7 +93,7 @@ void main() {
     "Pulpen",
     "Penghapus",
     "Roti",
-    "RTX 5060"
+    "RTX 5060",
     "semen 3 roda",
     "paracetamol",
     "susu",
@@ -129,9 +131,68 @@ void main() {
     stokPenjualan -= 1;
     debugPrint("Terjual 1, sisa stok: $stokPenjualan");
   }
+//bahaya while keliru
+// 1. Infinite Loop: Program berjalan tanpa henti hingga hang/crash jika kondisi tidak terpenuhi.
+// 2. Stok Negatif: Nilai stok menjadi minus sehingga sistem mencatat penjualan barang yang tidak ada.
+
+//cara memastikan tidak menjual melebihi stok
+// 1. Gunakan kondisi while yang ketat, misalnya: while (stok > 0).
+// 2. Tambahkan pengecekan kondisi (if jumlahBeli <= stok) sebelum memproses transaksi.
   
-  //peilihan tipe data pada program dapat mencegah kesalahan perhitungan harga barang
-  // selain itu tipe data yang pas dapat mempermudahkan perhitugan secara akurat
+  List<Map<String, dynamic>> daftarBarang = [
+    {"nama": "Buku Tulis", "harga": 5000, "stok": 10},
+    {"nama": "Pensil", "harga": 2000, "stok": 15},
+    {"nama": "Penggaris", "harga": 3000, "stok": 5},
+  ];
+  int totalnilai=0;
+  debugPrint("=== RINCIAN NILAI STOK BARANG KOPERASI ===");
+  for (var barang in daftarBarang) {
+    int nilaiStok = barang["harga"] * barang["stok"];
+    totalnilai += nilaiStok;
+    debugPrint("Nama: ${barang["nama"]}, Harga: ${barang["harga"]}, Stok: ${barang["stok"]}, Nilai Stok: $nilaiStok");
+  }
+
+  List<Map<String, dynamic>> daftarBarang2 = [
+    {"nama": "Buku Tulis", "stok": 12},
+    {"nama": "Pensil", "stok": 3},
+    {"nama": "Penggaris 30cm", "stok": 2},
+  ];
+
+  debugPrint("\n=== barang stok menipis ===");
+  for (var barang in daftarBarang2) {
+    if (barang["stok"] < 5) {
+      debugPrint("Nama: ${barang["nama"]}, Stok: ${barang["stok"]} (Stok menipis!)");
+    }
+  }
+
+  double totalBayar = hitungTotal(jumlahBeli, hargaSatuan);
+
+  debugPrint("=== DETAIL TRANSAKSI KOPERASI ===");
+  debugPrint("Nama Barang  : $namaBarang");
+  debugPrint("Jumlah Beli  : $jumlahBeli Pcs");
+  debugPrint("Harga Satuan : Rp$hargaSatuan");
+  debugPrint("----------------------------------");
+  debugPrint("Total Bayar  : Rp$totalBayar");
+
+  debugPrint("Total nilai stok: Rp${formatter.format(totalnilai)}");
+
+  String namaTransaksi = "Buku Tulis";
+  int jumlahTransaksi = 30;
+  double hargaSatuanTransaksi = 5000.0;
+
+  double totalAwal = hitungTotal(jumlahTransaksi, hargaSatuanTransaksi);
+  double persenPotonganTransaksi = totalAwal > 100000 ? 10.0 : 0.0;
+  double hargaAkhirTransaksi = hitungHargaAkhir(totalAwal, persenPotonganTransaksi);
+
+  debugPrint("=== DETAIL TRANSAKSI KOPERASI ===");
+  debugPrint("Nama Barang     : $namaTransaksi");
+  debugPrint("Jumlah Beli     : $jumlahTransaksi Pcs");
+  debugPrint("Harga Satuan    : Rp${formatter.format(hargaSatuanTransaksi.toInt())}");
+  debugPrint("Total Awal      : Rp${formatter.format(totalAwal.toInt())}");
+  debugPrint("Diskon          : ${persenPotonganTransaksi.toInt()}%");
+  debugPrint("----------------------------------");
+  debugPrint("Total Harga Akhir : Rp${formatter.format(hargaAkhirTransaksi.toInt())}");
+
   runApp(const MyApp());
 }
 
