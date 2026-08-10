@@ -6,6 +6,26 @@ double hitungTotal(int jumlah, double harga) {
 double hitungHargaAkhir(double total, double persenPotongan) {
   return total - (total * persenPotongan / 100);
 }
+
+double hitungHarga(bool anggota, double hargaAnggota, double hargaUmum) {
+  return anggota ? hargaAnggota : hargaUmum;
+}
+
+class Barang {
+  String nama;
+  double harga;
+  int stok;
+
+  Barang({required this.nama, required this.harga, required this.stok});
+
+  double hitungTotal() {
+    return harga * stok;
+  }
+
+  void tampilkanInfo() {
+    print('Barang: $nama | Harga: Rp$harga | Stok: $stok | Total Nilai: Rp${hitungTotal()}');
+  }
+}
 void main() {
   
 
@@ -192,6 +212,23 @@ void main() {
   debugPrint("Diskon          : ${persenPotonganTransaksi.toInt()}%");
   debugPrint("----------------------------------");
   debugPrint("Total Harga Akhir : Rp${formatter.format(hargaAkhirTransaksi.toInt())}");
+
+  //pemecahan program menjadi fungsi perhitungan diskon
+  //pada satu tempat, hal ini membantu koperasi karena jika aturan potongan berubah, 
+  //cukup mengubah fungsi ini tanpa harus mengubah banyak bagian kode lainnya.
+
+  double harga1 = hitungHarga(true, hargaAnggota, hargaUmum);
+  print("Pembeli Anggota -> Harga: Rp$harga1");
+  double harga2 = hitungHarga(false, hargaAnggota, hargaUmum);
+  print("Pembeli Umum    -> Harga: Rp$harga2");
+
+  Barang buku = Barang(nama: "Buku Tulis", harga: 5000.0, stok: 10);
+
+  Barang pensil = Barang(nama: "Pensil", harga: 2000.0, stok: 15);
+
+  debugPrint("\n=== INFORMASI BARANG ===");
+  buku.tampilkanInfo();
+  pensil.tampilkanInfo();
 
   runApp(const MyApp());
 }
