@@ -271,9 +271,16 @@ void main() {
 -memudahkan penambahan fitur bsinis
 -mengunci logika dan validasi data di barang satu tempat
 -objek barang fleksibel untuk di pasangan modul kasir, laporan, maupun widget
-
-
 */
+
+  Barang transaksiBarang = Barang(nama: "Buku Tulis", harga: 5000.0, stok: 10);
+  int jumlahBeliTransaksi = 3;
+  if (jumlahBeliTransaksi <= transaksiBarang.stok) {
+    transaksiBarang.stok -= jumlahBeliTransaksi;
+    debugPrint("Transaksi berhasil. Sisa stok: ${transaksiBarang.stok}");
+  } else {
+    debugPrint("Transaksi gagal. Stok tidak mencukupi.");
+  }
   runApp(const MyApp());
 }
 
