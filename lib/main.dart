@@ -38,6 +38,20 @@ class Barang {
   }
 
 }
+
+class Pembeli {
+  String nama;
+  bool anggota;
+
+  Pembeli({required this.nama, required this.anggota});
+
+  String get status => anggota ? 'Anggota' : 'Umum';
+
+  void tampilkanInfo() {
+    print('Pembeli: $nama | Status: $status');
+  }
+}
+
 void main() {
   
 
