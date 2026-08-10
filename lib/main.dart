@@ -22,6 +22,10 @@ class Barang {
     return harga * stok;
   }
 
+  double nilaiStok() {
+    return harga * stok;
+  }
+
   void tampilkanInfo() {
     print('Barang: $nama | Harga: Rp$harga | Stok: $stok | Total Nilai: Rp${hitungTotal()}');
   }
@@ -32,6 +36,7 @@ class Barang {
     print("Harga       : Rp$harga");
     print("Stok Tersisa: $stok Pcs");
   }
+
 }
 void main() {
   
