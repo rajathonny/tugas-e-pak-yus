@@ -25,6 +25,13 @@ class Barang {
   void tampilkanInfo() {
     print('Barang: $nama | Harga: Rp$harga | Stok: $stok | Total Nilai: Rp${hitungTotal()}');
   }
+
+  void tampilkan() {
+    print("----------------------------------------");
+    print("Nama Barang : $nama");
+    print("Harga       : Rp$harga");
+    print("Stok Tersisa: $stok Pcs");
+  }
 }
 void main() {
   
@@ -229,6 +236,19 @@ void main() {
   debugPrint("\n=== INFORMASI BARANG ===");
   buku.tampilkanInfo();
   pensil.tampilkanInfo();
+
+  List<Barang> daftarBarangObj = [
+    Barang(nama: "Buku Tulis", harga: 5000.0, stok: 20),
+    Barang(nama: "Pulpen", harga: 3000.0, stok: 15),
+    Barang(nama: "Roti", harga: 8000.0, stok: 10),
+  ];
+
+  print("=== INVENTARIS KOPERASI (BERBASIS OBJEK) ===");
+
+  for (var barang in daftarBarangObj) {
+    barang.tampilkan();
+  }
+  print("----------------------------------------");
 
   runApp(const MyApp());
 }
