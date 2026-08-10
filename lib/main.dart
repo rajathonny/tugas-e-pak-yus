@@ -250,6 +250,25 @@ void main() {
   }
   print("----------------------------------------");
 
+/*1. Keamanan Tipe Data (Type Safety):
+     - Sprint 3 menggunakan Map<String, dynamic> atau variabel lepas, sehingga rawan 
+       terjadi penulisan key yang salah (contoh: typo 'hargaa' bukannya 'harga').
+     - Sprint 5 menggunakan List<Barang>, sehingga Dart menjamin setiap elemen 
+       pasti memiliki atribut nama, harga, dan stok yang valid.
+2. Kemudahan Pemeliharaan (Maintainability):
+      - Sprint 3: Jika struktur data berubah (misal menambah atribut), harus 
+        mengubah banyak bagian kode yang mengakses Map.
+      - Sprint 5: Cukup mengubah class Barang, semua kode yang menggunakan objek 
+        Barang tetap valid.
+*/
+
+/*keuntungan penerapan oop
+-memudahkan penambahan fitur bsinis
+-mengunci logika dan validasi data di barang satu tempat
+-objek barang fleksibel untuk di pasangan modul kasir, laporan, maupun widget
+
+
+*/
   runApp(const MyApp());
 }
 
