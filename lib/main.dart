@@ -14,9 +14,12 @@ double hitungHarga(bool anggota, double hargaAnggota, double hargaUmum) {
 class Barang {
   String nama;
   double harga;
-  int stok;
+  int _stok;
 
-  Barang({required this.nama, required this.harga, required this.stok});
+  int get stok => _stok;
+  set stok(int value) => _stok = value;
+
+  Barang({required this.nama, required this.harga, required int stok}) : _stok = stok;
 
   double hitungTotal() {
     return harga * stok;
@@ -50,11 +53,22 @@ class Pembeli {
   void tampilkanInfo() {
     print('Pembeli: $nama | Status: $status');
   }
+
+}
+
+class Barangpromo extends Barang {
+  double diskon;
+
+  Barangpromo({required String nama, required double harga, required int stok, required this.diskon})
+      : super(nama: nama, harga: harga, stok: stok);
+
+  double Hargapromo() {
+    return harga - (harga * diskon / 100);
+  }
+
 }
 
 void main() {
-  
-
   String namaBarang = "Buku Tulis";
   double hargaAnggota = 3000.0;
   double hargaUmum = 3500.0;
@@ -295,6 +309,13 @@ void main() {
   } else {
     debugPrint("Transaksi gagal. Stok tidak mencukupi.");
   }
+
+  Barangpromo promoBarang = Barangpromo(nama: "Buku Tulis", harga: 5000.0, stok: 10, diskon: 20.0);
+
+  debugPrint("\n=== INFORMASI BARANG PROMO ===");
+  debugPrint("Nama Barang: ${promoBarang.nama}");
+  debugPrint("Harga Normal: Rp${formatter.format(promoBarang.harga.toInt())}");
+  debugPrint("Diskon: ${promoBarang.diskon}%");
   runApp(const MyApp());
 }
 
