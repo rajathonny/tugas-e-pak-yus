@@ -122,12 +122,7 @@ Future<void> main() async {
   // Kategori barang koperasi
   String kategori = "atk";
   
-  // Switch-case untuk menentukan lokasi rak berdasarkan kategori
-  // Switch-case lebih rapi dibanding banyak if karena:
-  // 1. Lebih mudah dibaca dan dipahami
-  // 2. Struktur yang jelas dengan case-case terpisah
-  // 3. Tidak perlu nested if-else yang rumit
-  // 4. Lebih efisien untuk multiple kondisi dengan nilai spesifik
+ 
   late String lokasi;
   switch (kategori) {
     case "atk":
@@ -232,14 +227,7 @@ Future<void> main() async {
     stokPenjualan -= 1;
     debugPrint("Terjual 1, sisa stok: $stokPenjualan");
   }
-//bahaya while keliru
-// 1. Infinite Loop: Program berjalan tanpa henti hingga hang/crash jika kondisi tidak terpenuhi.
-// 2. Stok Negatif: Nilai stok menjadi minus sehingga sistem mencatat penjualan barang yang tidak ada.
 
-//cara memastikan tidak menjual melebihi stok
-// 1. Gunakan kondisi while yang ketat, misalnya: while (stok > 0).
-// 2. Tambahkan pengecekan kondisi (if jumlahBeli <= stok) sebelum memproses transaksi.
-  
   List<Map<String, dynamic>> daftarBarang = [
     {"nama": "Buku Tulis", "harga": 5000, "stok": 10},
     {"nama": "Pensil", "harga": 2000, "stok": 15},
