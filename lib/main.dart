@@ -15,7 +15,10 @@ class Barang {
   String nama;
   double harga;
   int _stok;
-
+/*
+untuk menjaga agar stok tidak bisa diubah diluear clas
+menggunakan getter dan setter untuk mengontrol akses ke variable stok
+*/
   int get stok => _stok;
   set stok(int value) => _stok = value;
 
@@ -39,10 +42,25 @@ class Barang {
     print("Harga       : Rp$harga");
     print("Stok Tersisa: $stok Pcs");
   }
+  
+  void prosesBeli(String inputJumlah){
+    try {
+      int jumlah = int.parse(inputJumlah);
+      if (jumlah <= stok) {
+        stok -= jumlah;
+        print("Berhasil membeli $jumlah $nama. Sisa stok: $stok");
+      } else {
+        print("Stok tidak mencukupi. Stok tersedia: $stok");
+      }
+    } catch (e) {
+      print("Input tidak valid. Harap masukkan angka.");
+    }
+  
+  }
 
-}
+  }
 
-class Pembeli {
+  class Pembeli {
   String nama;
   bool anggota;
 
@@ -69,6 +87,14 @@ class Barangpromo extends Barang {
 }
 
 void main() {
+
+  // Demo pembelian menggunakan instance Barang
+  Barang contoh = Barang(nama: "Contoh", harga: 1000.0, stok: 10);
+  contoh.prosesBeli("5");     // Kasus Input Benar
+  print("---");
+  contoh.prosesBeli("dua");
+
+  
   String namaBarang = "Buku Tulis";
   double hargaAnggota = 3000.0;
   double hargaUmum = 3500.0;
