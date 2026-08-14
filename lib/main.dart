@@ -58,9 +58,9 @@ menggunakan getter dan setter untuk mengontrol akses ke variable stok
   
   }
 
-  }
+}
 
-  class Pembeli {
+class Pembeli {
   String nama;
   bool anggota;
 
@@ -86,7 +86,22 @@ class Barangpromo extends Barang {
 
 }
 
-void main() {
+Future<void> muatLaporan() async {
+  print("Menyiapkan laporan...");
+  // Simulasi proses penyiapan data selama 1 detik
+  await Future.delayed(Duration(seconds: 1));
+  print("Laporan siap!");
+}
+
+Future<void> main() async {
+
+  print("--- AWAL TRANSAKSI / SISTEM ---");
+  
+  // Memanggil fungsi muatLaporan dengan await
+  await muatLaporan();
+  
+  print("--- PROGRAM SELESAI ---");
+
 
   // Demo pembelian menggunakan instance Barang
   Barang contoh = Barang(nama: "Contoh", harga: 1000.0, stok: 10);
